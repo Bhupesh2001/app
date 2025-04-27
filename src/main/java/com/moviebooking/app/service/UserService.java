@@ -46,8 +46,9 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
 //        if(passwordEncoder.matches(password, user.getPassword())) {
-//            return "Login successful";
-//        }
+        if(password.equals(user.getPassword())) {
+            return "Login successful";
+        }
         throw new RuntimeException("Invalid password");
     }
 

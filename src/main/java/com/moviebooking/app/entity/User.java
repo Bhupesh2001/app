@@ -1,5 +1,6 @@
 package com.moviebooking.app.entity;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -21,5 +22,7 @@ public class User {
 
     private String password;
     private String contactNumber;
+
+//    @Pattern(regexp = "^(USER|ADMIN)$", message = "Role must be either USER or ADMIN")
     private String role = "USER";
 }

@@ -16,4 +16,10 @@ public class Movie {
     private int totalTickets;
     private int bookedTickets;
     private String ticketStatus = "BOOK ASAP";
+
+    public Movie(String movieName, String theatreName, int totalTickets) {
+        this.movieName = movieName;
+        this.theatreName = theatreName;
+        this.totalTickets = totalTickets;
+    }
 }

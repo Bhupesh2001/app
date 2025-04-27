@@ -17,4 +17,7 @@ public class BookTicketDTO {
 
     @NotEmpty(message = "Seat numbers required")
     private List<String> seatNumbers;
+
+    @NotEmpty(message = "User's LoginId required")
+    private String loginId;
 }

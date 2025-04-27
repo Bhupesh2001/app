@@ -1,5 +1,6 @@
 package com.moviebooking.app.entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Document(collection = "tickets")
 @Data
+@Builder
 public class Ticket {
     @Id
     private String id;
@@ -16,5 +18,5 @@ public class Ticket {
     private int numberOfTickets;
     private List<String> seatNumbers;
     private Date bookingDate = new Date();
-    private String userId;
+    private String loginId;
 }

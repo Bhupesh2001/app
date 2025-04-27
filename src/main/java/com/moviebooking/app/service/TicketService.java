@@ -33,12 +33,14 @@ public class TicketService {
         }
 
         // Create ticket
-        Ticket ticket = new Ticket();
-        ticket.setMovieName(movieName);
-        ticket.setTheatreName(dto.getTheatreName());
-        ticket.setNumberOfTickets(dto.getNumberOfTickets());
-        ticket.setSeatNumbers(dto.getSeatNumbers());
-        ticket.setUserId(UUID.randomUUID().toString()); // Replace with actual user ID
+        Ticket ticket = Ticket.builder()
+                .movieName(movieName)
+                .theatreName(dto.getTheatreName())
+                .numberOfTickets(dto.getNumberOfTickets())
+                .seatNumbers(dto.getSeatNumbers())
+                .loginId(dto.getLoginId())
+                .build();
+
 
         // Update movie
         movie.setBookedTickets(movie.getBookedTickets() + dto.getNumberOfTickets());
