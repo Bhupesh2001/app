@@ -7,6 +7,10 @@ spring:
       uri: mongodb://localhost:27017/moviebooking
   kafka:
     bootstrap-servers: localhost:9092
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: movie-group
+      auto-offset-reset: earliest
   application:
     name: app
 

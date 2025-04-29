@@ -22,3 +22,19 @@ services:
 networks:
   kafka-net:
     driver: bridge
+
+
+#  mongodb:
+#    image: mongo:latest
+#    container_name: mongodb
+#    ports:
+#      - "27017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: Bhupesh@2001
+#    volumes:
+#      - mongo-data:/data/db
+
+#volumes:
+#  mongo-data:
+

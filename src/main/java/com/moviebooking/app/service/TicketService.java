@@ -1,15 +1,15 @@
 package com.moviebooking.app.service;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.moviebooking.app.dto.BookTicketDTO;
 import com.moviebooking.app.entity.Movie;
 import com.moviebooking.app.entity.Ticket;
 import com.moviebooking.app.kafka.TicketProducer;
 import com.moviebooking.app.repository.MovieRepository;
 import com.moviebooking.app.repository.TicketRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.UUID;
 
 @Service
 public class TicketService {
@@ -38,7 +38,7 @@ public class TicketService {
                 .theatreName(dto.getTheatreName())
                 .numberOfTickets(dto.getNumberOfTickets())
                 .seatNumbers(dto.getSeatNumbers())
-                .loginId(dto.getLoginId())
+                .loginId(dto.getLoginId())  // it's the username/loginId of the user who booked the tickets
                 .build();
 
 
@@ -50,7 +50,7 @@ public class TicketService {
         ticketRepo.save(ticket);
 
         // Send Kafka message
-        ticketProducer.sendMessage("Ticket booked: " + ticket.getId());
+        ticketProducer.sendTicketUpdate(dto);
 
         return "Ticket booked successfully";
     }

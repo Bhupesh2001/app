@@ -1,6 +1,8 @@
 package com.moviebooking.app.exception;
 
-import com.moviebooking.app.dto.ErrorResponse;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,9 +13,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+
+import com.moviebooking.app.dto.ErrorResponse;
+
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
@@ -78,4 +80,18 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         }
         return HttpStatus.BAD_REQUEST;
     }
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+//        Map<String, String> errors = ex.getBindingResult()
+//                .getFieldErrors()
+//                .stream()
+//                .collect(Collectors.toMap(
+//                        FieldError::getField,
+//                        FieldError::getDefaultMessage,
+//                        (existing, replacement) -> existing,
+//                        LinkedHashMap::new
+//                ));
+//        return ResponseEntity.badRequest().body(errors);
+//    }
 }

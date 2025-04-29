@@ -1,16 +1,14 @@
 package com.moviebooking.app.config;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import com.moviebooking.app.entity.Movie;
 import com.moviebooking.app.entity.User;
 import com.moviebooking.app.repository.MovieRepository;
 import com.moviebooking.app.repository.TicketRepository;
 import com.moviebooking.app.repository.UserRepository;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 public class DataInitializer {
