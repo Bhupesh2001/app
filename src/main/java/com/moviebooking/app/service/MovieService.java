@@ -45,7 +45,7 @@ public class MovieService {
         dto.setTotalTickets(movie.getTotalTickets());
         dto.setBookedTickets(movie.getBookedTickets());
         dto.setAvailableTickets(movie.getTotalTickets() - movie.getBookedTickets());
-        dto.setTicketStatus(movie.getTicketStatus());
+        dto.setTicketStatus(dto.getAvailableTickets()==0 ? "SOLD OUT" : "BOOK ASAP");
         return dto;
     }
 

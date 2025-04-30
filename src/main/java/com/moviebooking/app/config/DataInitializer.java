@@ -21,8 +21,8 @@ public class DataInitializer {
 //            ticketRepository.deleteAll();
 
             // Create sample movies with theatre
-            Movie m1 = new Movie("Inception", "PVR Cinemas", 100);
-            Movie m2 = new Movie("Inception", "INOX", 100);
+            Movie m1 = new Movie("Inception", "PVR Cinemas", 5);
+            Movie m2 = new Movie("Inception", "INOX", 5);
             Movie m3 = new Movie("Interstellar", "PVR Cinemas", 100);
             Movie m4 = new Movie("Interstellar", "INOX", 100);
 
@@ -50,4 +50,19 @@ public class DataInitializer {
             userRepository.save(user);
         };
     }
+//    @Bean
+//    CommandLineRunner intiTestUsers(UserRepository userRepository){
+//        return (args) -> {
+//            User user = User.builder()
+//                    .role("USER")
+//                    .password("password123")
+//                    .loginId("johndoe123")
+//                    .email("admin@gmail.com")
+//                    .contactNumber("987653210")
+//                    .firstName("Bhupesh")
+//                    .lastName("Pattanaik")
+//                    .build();
+//            userRepository.save(user);
+//        };
+//    }
 }

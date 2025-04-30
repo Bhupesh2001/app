@@ -22,9 +22,6 @@ public class UserRegistrationDTO {
     @Size(min = 8, message = "Password must be at least 8 characters")
     private String password;
 
-    @NotBlank(message = "Confirm password is required")
-    private String confirmPassword;
-
     @Pattern(regexp = "^\\d{10}$", message = "Invalid contact number")
     private String contactNumber;
 }
