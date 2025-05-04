@@ -10,6 +10,9 @@ import com.moviebooking.app.repository.MovieRepository;
 import com.moviebooking.app.repository.TicketRepository;
 import com.moviebooking.app.repository.UserRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Configuration
 public class DataInitializer {
 
@@ -36,9 +39,11 @@ public class DataInitializer {
     }
 
     @Bean
-    CommandLineRunner intiAdminUsers(UserRepository userRepository){
+    CommandLineRunner intiUsers(UserRepository userRepository){
+        userRepository.deleteAll();
         return (args) -> {
-            User user = User.builder()
+            List<User> userList = new ArrayList<>();
+            userList.add( User.builder()
                     .role("ADMIN")
                     .password("admin123")
                     .loginId("adminId")
@@ -46,23 +51,17 @@ public class DataInitializer {
                     .contactNumber("987653210")
                     .firstName("Bhupesh")
                     .lastName("Pattanaik")
-                    .build();
-            userRepository.save(user);
+                    .build());
+            userList.add(User.builder()
+                    .role("USER")
+                    .password("password123")
+                    .loginId("johndoe123")
+                    .email("admin@gmail.com")
+                    .contactNumber("987653210")
+                    .firstName("Bhupesh")
+                    .lastName("Pattanaik")
+                    .build());
+            userRepository.saveAll(userList);
         };
     }
-//    @Bean
-//    CommandLineRunner intiTestUsers(UserRepository userRepository){
-//        return (args) -> {
-//            User user = User.builder()
-//                    .role("USER")
-//                    .password("password123")
-//                    .loginId("johndoe123")
-//                    .email("admin@gmail.com")
-//                    .contactNumber("987653210")
-//                    .firstName("Bhupesh")
-//                    .lastName("Pattanaik")
-//                    .build();
-//            userRepository.save(user);
-//        };
-//    }
 }

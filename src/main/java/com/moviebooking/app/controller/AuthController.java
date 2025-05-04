@@ -1,5 +1,6 @@
 package com.moviebooking.app.controller;
 
+import com.moviebooking.app.dto.AuthResponseDTO;
 import com.moviebooking.app.dto.UserRegistrationDTO;
 import com.moviebooking.app.service.UserService;
 import jakarta.validation.Valid;
@@ -15,19 +16,19 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationDTO dto) {
+    public ResponseEntity<AuthResponseDTO> registerUser(@Valid @RequestBody UserRegistrationDTO dto) {
         return ResponseEntity.ok(userService.registerUser(dto));
     }
 
     @GetMapping("/login")
-    public ResponseEntity<?> loginUser(
+    public ResponseEntity<AuthResponseDTO> loginUser(
             @RequestParam String loginId,
             @RequestParam String password) {
         return ResponseEntity.ok(userService.loginUser(loginId, password));
     }
 
     @GetMapping("/{username}/forgot")
-    public ResponseEntity<?> resetPassword(
+    public ResponseEntity<AuthResponseDTO> resetPassword(
             @PathVariable String username,
             @RequestParam String newPassword) {
         return ResponseEntity.ok(userService.resetPassword(username, newPassword));

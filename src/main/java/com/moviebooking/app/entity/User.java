@@ -25,5 +25,6 @@ public class User {
     private String contactNumber;
 
    @Pattern(regexp = "^(USER|ADMIN)$", message = "Role must be either USER or ADMIN")
+   @Builder.Default
     private String role = "USER";
 }

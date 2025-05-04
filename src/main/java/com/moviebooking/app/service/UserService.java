@@ -1,5 +1,6 @@
 package com.moviebooking.app.service;
 
+import com.moviebooking.app.dto.AuthResponseDTO;
 import com.moviebooking.app.dto.UserRegistrationDTO;
 import com.moviebooking.app.entity.User;
 import com.moviebooking.app.repository.UserRepository;
@@ -17,7 +18,7 @@ public class UserService {
 //    private PasswordEncoder passwordEncoder;
 
     // Registration with uniqueness checks
-    public String registerUser(UserRegistrationDTO dto) {
+    public AuthResponseDTO registerUser(UserRegistrationDTO dto) {
         // Check if loginId exists
         if(userRepo.existsByLoginId(dto.getLoginId())) {
             throw new RuntimeException("Login ID already exists!");
@@ -36,29 +37,51 @@ public class UserService {
                 .loginId(dto.getLoginId())
                 .password(dto.getPassword())
                 .build();
-        userRepo.save(user);
-        return "Registration successful!";
+        User response = userRepo.save(user);
+
+        return AuthResponseDTO.builder()
+                .firstName(response.getFirstName())
+                .lastName(response.getLastName())
+                .contactNumber(response.getContactNumber())
+                .email(response.getEmail())
+                .loginId(response.getLoginId())
+                .role("USER")
+                .build();
     }
 
     // Login using loginId
-    public String loginUser(String loginId, String password) {
+    public AuthResponseDTO loginUser(String loginId, String password) {
         User user = userRepo.findByLoginId(loginId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
 //        if(passwordEncoder.matches(password, user.getPassword())) {
-        if(password.equals(user.getPassword())) {
-            return "Login successful";
+        if(!password.equals(user.getPassword())) {
+            throw new RuntimeException("Invalid password");
         }
-        throw new RuntimeException("Invalid password");
+        return AuthResponseDTO.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .contactNumber(user.getContactNumber())
+                .email(user.getEmail())
+                .loginId(user.getLoginId())
+                .role(user.getRole())
+                .build();
     }
 
     // Password reset via email
-    public String resetPassword(String email, String newPassword) {
+    public AuthResponseDTO resetPassword(String email, String newPassword) {
         User user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Email not registered"));
         user.setPassword(newPassword);
 //        user.setPassword(passwordEncoder.encode(newPassword));
         userRepo.save(user);
-        return "Password updated!";
+        return AuthResponseDTO.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .contactNumber(user.getContactNumber())
+                .email(user.getEmail())
+                .loginId(user.getLoginId())
+                .role(user.getRole())
+                .build();
     }
 }
