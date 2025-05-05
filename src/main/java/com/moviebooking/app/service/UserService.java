@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.moviebooking.app.constants.Constants.*;
+
 @Service
 public class UserService {
 
@@ -21,12 +23,12 @@ public class UserService {
     public AuthResponseDTO registerUser(UserRegistrationDTO dto) {
         // Check if loginId exists
         if(userRepo.existsByLoginId(dto.getLoginId())) {
-            throw new RuntimeException("Login ID already exists!");
+            throw new RuntimeException(LOGIN_ID_ALREADY_EXISTS);
         }
 
         // Check if email exists
         if(userRepo.existsByEmail(dto.getEmail())) {
-            throw new RuntimeException("Email already registered!");
+            throw new RuntimeException(EMAIL_ALREADY_REGISTERED);
         }
 
         User user = User.builder()
@@ -52,11 +54,11 @@ public class UserService {
     // Login using loginId
     public AuthResponseDTO loginUser(String loginId, String password) {
         User user = userRepo.findByLoginId(loginId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
 
 //        if(passwordEncoder.matches(password, user.getPassword())) {
         if(!password.equals(user.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new RuntimeException(INVALID_PASSWORD);
         }
         return AuthResponseDTO.builder()
                 .firstName(user.getFirstName())
@@ -71,7 +73,7 @@ public class UserService {
     // Password reset via email
     public AuthResponseDTO resetPassword(String email, String newPassword) {
         User user = userRepo.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Email not registered"));
+                .orElseThrow(() -> new RuntimeException(EMAIL_NOT_REGISTERED));
         user.setPassword(newPassword);
 //        user.setPassword(passwordEncoder.encode(newPassword));
         userRepo.save(user);

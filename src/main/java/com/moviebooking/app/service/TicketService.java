@@ -13,6 +13,9 @@ import com.moviebooking.app.kafka.TicketProducer;
 import com.moviebooking.app.repository.MovieRepository;
 import com.moviebooking.app.repository.TicketRepository;
 
+import static com.moviebooking.app.constants.Constants.MOVIE_NOT_FOUND;
+import static com.moviebooking.app.constants.Constants.TICKETS_NOT_AVAILABLE;
+
 @Service
 public class TicketService {
 
@@ -30,10 +33,10 @@ public class TicketService {
     public String bookTicket(String movieName, BookTicketDTO dto) {
         // Check movie availability
         Movie movie = movieRepo.findByMovieNameAndTheatreName(movieName, dto.getTheatreName())
-                .orElseThrow(() -> new RuntimeException("Movie not found"));
+                .orElseThrow(() -> new RuntimeException(MOVIE_NOT_FOUND));
 
         if((movie.getTotalTickets() - movie.getBookedTickets()) < dto.getNumberOfTickets()) {
-            throw new RuntimeException("Not enough tickets available");
+            throw new RuntimeException(TICKETS_NOT_AVAILABLE);
         }
 
         // Create ticket

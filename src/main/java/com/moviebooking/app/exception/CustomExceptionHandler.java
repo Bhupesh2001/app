@@ -16,6 +16,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.moviebooking.app.dto.ErrorResponse;
 
+import static com.moviebooking.app.constants.Constants.*;
+
 
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
@@ -69,13 +71,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private HttpStatus determineHttpStatus(String message) {
-        if (message.contains("not found")) {
+        if (message.contains(USER_NOT_FOUND)) {
             return HttpStatus.NOT_FOUND;
-        } else if (message.contains("already exists")) {
+        } else if (message.contains(EMAIL_ALREADY_REGISTERED)) {
             return HttpStatus.CONFLICT;
-        } else if (message.contains("Invalid credentials")) {
+        } else if (message.contains(INVALID_PASSWORD)) {
             return HttpStatus.UNAUTHORIZED;
-        } else if (message.contains("Not enough tickets")) {
+        } else if (message.contains(TICKETS_NOT_AVAILABLE)) {
             return HttpStatus.BAD_REQUEST;
         }
         return HttpStatus.BAD_REQUEST;
