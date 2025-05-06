@@ -6,10 +6,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import static com.moviebooking.app.constants.Constants.TOPIC;
+
 @Component
 public class TicketProducer {
     private static final Logger logger = LoggerFactory.getLogger(TicketProducer.class);
-    private static final String TOPIC = "ticket-updates";
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     public TicketProducer(KafkaTemplate<String, String> kafkaTemplate) {

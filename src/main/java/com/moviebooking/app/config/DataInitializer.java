@@ -58,8 +58,8 @@ public class DataInitializer {
                     .loginId("johndoe123")
                     .email("admin@gmail.com")
                     .contactNumber("987653210")
-                    .firstName("Bhupesh")
-                    .lastName("Pattanaik")
+                    .firstName("john")
+                    .lastName("doe")
                     .build());
             userRepository.saveAll(userList);
         };
