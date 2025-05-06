@@ -71,8 +71,8 @@ public class UserService {
     }
 
     // Password reset via email
-    public AuthResponseDTO resetPassword(String email, String newPassword) {
-        User user = userRepo.findByEmail(email)
+    public AuthResponseDTO resetPassword(String loginId, String newPassword) {
+        User user = userRepo.findByLoginId(loginId)
                 .orElseThrow(() -> new RuntimeException(EMAIL_NOT_REGISTERED));
         user.setPassword(newPassword);
 //        user.setPassword(passwordEncoder.encode(newPassword));

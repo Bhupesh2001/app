@@ -26,7 +26,7 @@ public class AuthController {
             @RequestParam String password) {
         return ResponseEntity.ok(userService.loginUser(loginId, password));
     }
-
+//    loginId == username
     @GetMapping("/{username}/forgot")
     public ResponseEntity<AuthResponseDTO> resetPassword(
             @PathVariable String username,

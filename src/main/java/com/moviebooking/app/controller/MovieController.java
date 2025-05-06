@@ -1,6 +1,6 @@
 package com.moviebooking.app.controller;
 
-import com.moviebooking.app.dto.MovieResponseDTO;
+import com.moviebooking.app.entity.Movie;
 import com.moviebooking.app.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,21 +16,21 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<MovieResponseDTO>> getAllMovies() {
+    public ResponseEntity<List<Movie>> getAllMovies() {
         return ResponseEntity.ok(movieService.getAllMovies());
     }
 
     @GetMapping("/movies/search/{movieName}")
-    public ResponseEntity<List<MovieResponseDTO>> searchMovies(
+    public ResponseEntity<List<Movie>> searchMovies(
             @PathVariable String movieName) {
         return ResponseEntity.ok(movieService.searchMovies(movieName));
     }
-
-    @PutMapping("/{movieName}/update/{tickets}")
+//  admin apne icha se total number of available tickets to reduced kar sakta by X({tickets}) number of tickets
+    @PutMapping("/{movieId}/update/{tickets}")
     public ResponseEntity<?> updateTicketStatus(
-            @PathVariable String movieName,
+            @PathVariable String movieId,
             @PathVariable int tickets) {
-        return ResponseEntity.ok(movieService.updateTicketAvailability(movieName, tickets));
+        return ResponseEntity.ok(movieService.updateTicketAvailability(movieId, tickets));
     }
 
     @DeleteMapping("/{movieName}/delete/{id}")

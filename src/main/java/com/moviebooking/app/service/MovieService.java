@@ -6,7 +6,8 @@ import com.moviebooking.app.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.moviebooking.app.constants.Constants.TICKETS_NOT_AVAILABLE;
 
 @Service
 public class MovieService {
@@ -14,39 +15,26 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepo;
 
-    public List<MovieResponseDTO> getAllMovies() {
-        return movieRepo.findAll().stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public List<Movie> getAllMovies() {
+        return movieRepo.findAll();
     }
 
-    public List<MovieResponseDTO> searchMovies(String movieName) {
-        return movieRepo.findByMovieNameContainingIgnoreCase(movieName).stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public List<Movie> searchMovies(String movieName) {
+        return movieRepo.findByMovieNameContainingIgnoreCase(movieName);
     }
 
-    public MovieResponseDTO updateTicketAvailability(String movieName, int tickets) {
-        Movie movie = movieRepo.findByMovieName(movieName)
+    public Movie updateTicketAvailability(String movieName, int tickets) {
+        Movie movie = movieRepo.findById(movieName)
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
+        if(tickets > movie.getTotalTickets()-movie.getBookedTickets())
+            throw new RuntimeException(TICKETS_NOT_AVAILABLE);
 
         movie.setBookedTickets(movie.getBookedTickets() + tickets);
         movie.setTicketStatus(
                 (movie.getTotalTickets() - movie.getBookedTickets()) > 0 ?
                         "BOOK ASAP" : "SOLD OUT"
         );
-        return convertToDTO(movieRepo.save(movie));
-    }
-
-    private MovieResponseDTO convertToDTO(Movie movie) {
-        MovieResponseDTO dto = new MovieResponseDTO();
-        dto.setMovieName(movie.getMovieName());
-        dto.setTheatreName(movie.getTheatreName());
-        dto.setTotalTickets(movie.getTotalTickets());
-        dto.setBookedTickets(movie.getBookedTickets());
-        dto.setAvailableTickets(movie.getTotalTickets() - movie.getBookedTickets());
-        dto.setTicketStatus(dto.getAvailableTickets()==0 ? "SOLD OUT" : "BOOK ASAP");
-        return dto;
+        return movieRepo.save(movie);
     }
 
     public void deleteMovie(String id) {
