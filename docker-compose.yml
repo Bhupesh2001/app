@@ -12,7 +12,8 @@ services:
       - KAFKA_CFG_PROCESS_ROLES=controller,broker
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+#      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://172.19.4.5:9092
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - ALLOW_PLAINTEXT_LISTENER=yes
@@ -26,7 +27,7 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data/
     environment:
-      - xpack.security.enabled=true  # Disable security for local development
+      - xpack.security.enabled=false  # Disable security for local development
       - ES_JAVA_OPTS=-Xmx256m -Xms256m
       - discovery.type=single-node
     ports:
@@ -39,13 +40,14 @@ services:
     container_name: logstash
     restart: always
     volumes:
-      - ./logstash/:/logstash_dir
-    command: logstash -f /logstash_dir/pipeline/logstash.conf
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
     depends_on:
       - elasticsearch
     ports:
       - '5044:5044'
     environment:
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=elastic123
       - LS_JAVA_OPTS=-Xmx256m -Xms256m
     networks:
       - elk-network
@@ -57,7 +59,8 @@ services:
     ports:
       - '5601:5601'
     environment:
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
+#      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_URL=http://172.19.4.5:9200
     depends_on:
       - elasticsearch
     networks:
