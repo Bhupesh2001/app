@@ -17,6 +17,7 @@ public class Ticket {
     private String theatreName;
     private int numberOfTickets;
     private List<String> seatNumbers;
+    @Builder.Default
     private Date bookingDate = new Date();
     private String loginId;
 }
