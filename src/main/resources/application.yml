@@ -6,11 +6,16 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/moviebooking
   kafka:
-    bootstrap-servers: 172.19.4.5:9092
-#    bootstrap-servers: localhost:9092
+#    bootstrap-servers: 172.19.4.5:9092
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      bootstrap-servers: 172.19.4.5:9092
-#      bootstrap-servers: localhost:9092
+#      bootstrap-servers: 172.19.4.5:9092
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: movie-group
       auto-offset-reset: earliest
   application:
