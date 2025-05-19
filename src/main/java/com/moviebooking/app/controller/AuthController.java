@@ -2,6 +2,7 @@ package com.moviebooking.app.controller;
 
 import com.moviebooking.app.dto.AuthResponseDTO;
 import com.moviebooking.app.dto.UserRegistrationDTO;
+import com.moviebooking.app.service.LoggingService;
 import com.moviebooking.app.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -19,8 +20,12 @@ public class AuthController {
 
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
+    @Autowired
+    private LoggingService logger;
+
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDTO> registerUser(@Valid @RequestBody UserRegistrationDTO dto) {
+        logger.logInfo("register wala controller call hua hae");
         log.info("[Invoked /register endpoint], data :{}",dto);
         return ResponseEntity.ok(userService.registerUser(dto));
     }
@@ -29,6 +34,7 @@ public class AuthController {
     public ResponseEntity<AuthResponseDTO> loginUser(
             @RequestParam String loginId,
             @RequestParam String password) {
+        logger.logInfo("login wala controller call hua hae");
         log.info("[Invoked /login endpoint], loginId:{}, password:{}",loginId,password);
         return ResponseEntity.ok(userService.loginUser(loginId, password));
     }

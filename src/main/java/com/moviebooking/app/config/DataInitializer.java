@@ -1,5 +1,7 @@
 package com.moviebooking.app.config;
 
+import com.moviebooking.app.service.LoggingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,9 @@ import java.util.List;
 
 @Configuration
 public class DataInitializer {
+
+    @Autowired
+    private LoggingService logger;
 
     @Bean
     CommandLineRunner initMovies(MovieRepository movieRepository, TicketRepository ticketRepository) {
@@ -33,7 +38,7 @@ public class DataInitializer {
             movieRepository.save(m2);
             movieRepository.save(m3);
             movieRepository.save(m4);
-
+            logger.logInfo("Data save ho gya");
             System.out.println("✅ Sample movies initialized in MongoDB.");
         };
     }
@@ -62,6 +67,8 @@ public class DataInitializer {
                     .lastName("doe")
                     .build());
             userRepository.saveAll(userList);
+
+            logger.logInfo("Saare users baan gye");
         };
     }
 }
