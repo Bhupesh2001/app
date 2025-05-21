@@ -1,6 +1,6 @@
 package com.moviebooking.app.config;
 
-import com.moviebooking.app.service.LoggingService;
+import com.moviebooking.app.kafka.LoggingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

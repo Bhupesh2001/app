@@ -2,7 +2,7 @@ package com.moviebooking.app.controller;
 
 import com.moviebooking.app.dto.AuthResponseDTO;
 import com.moviebooking.app.dto.UserRegistrationDTO;
-import com.moviebooking.app.service.LoggingService;
+import com.moviebooking.app.kafka.LoggingService;
 import com.moviebooking.app.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
