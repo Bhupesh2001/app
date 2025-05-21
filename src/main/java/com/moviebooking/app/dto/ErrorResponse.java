@@ -19,7 +19,6 @@ public class ErrorResponse {
     private LocalDateTime timestamp;
     private Map<String, String> details;
 
-    // Additional constructor for convenience
     public ErrorResponse(String message, HttpStatusCode status, LocalDateTime timestamp) {
         this.message = message;
         this.status = status;

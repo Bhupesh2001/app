@@ -13,7 +13,7 @@ import lombok.Data;
 @Builder
 public class User {
     @Id
-    private String loginId; // Now serves as the primary key
+    private String loginId;
 
     private String firstName;
     private String lastName;

@@ -22,7 +22,7 @@ import static com.moviebooking.app.constants.Constants.*;
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // Handle validation errors
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -44,7 +44,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, status);
     }
 
-    // Handle business logic exceptions
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
         HttpStatus status = determineHttpStatus(ex.getMessage());
@@ -58,7 +58,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, status);
     }
 
-    // Fallback for all other exceptions
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
         ErrorResponse response = new ErrorResponse(
@@ -82,18 +82,4 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         }
         return HttpStatus.BAD_REQUEST;
     }
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-//        Map<String, String> errors = ex.getBindingResult()
-//                .getFieldErrors()
-//                .stream()
-//                .collect(Collectors.toMap(
-//                        FieldError::getField,
-//                        FieldError::getDefaultMessage,
-//                        (existing, replacement) -> existing,
-//                        LinkedHashMap::new
-//                ));
-//        return ResponseEntity.badRequest().body(errors);
-//    }
 }

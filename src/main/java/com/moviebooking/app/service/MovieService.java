@@ -1,6 +1,5 @@
 package com.moviebooking.app.service;
 
-import com.moviebooking.app.dto.MovieResponseDTO;
 import com.moviebooking.app.entity.Movie;
 import com.moviebooking.app.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;

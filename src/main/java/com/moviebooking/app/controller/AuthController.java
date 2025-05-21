@@ -18,15 +18,12 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
-
     @Autowired
     private LoggingService logger;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDTO> registerUser(@Valid @RequestBody UserRegistrationDTO dto) {
-        logger.logInfo("register wala controller call hua hae");
-        log.info("[Invoked /register endpoint], data :{}",dto);
+        logger.info("[Invoked /register endpoint]");
         return ResponseEntity.ok(userService.registerUser(dto));
     }
 
@@ -34,8 +31,7 @@ public class AuthController {
     public ResponseEntity<AuthResponseDTO> loginUser(
             @RequestParam String loginId,
             @RequestParam String password) {
-        logger.logInfo("login wala controller call hua hae");
-        log.info("[Invoked /login endpoint], loginId:{}, password:{}",loginId,password);
+        logger.info("[Invoked /login endpoint]");
         return ResponseEntity.ok(userService.loginUser(loginId, password));
     }
 //    loginId == username
@@ -43,7 +39,7 @@ public class AuthController {
     public ResponseEntity<AuthResponseDTO> resetPassword(
             @PathVariable String username,
             @RequestParam String newPassword) {
-        log.info("[Invoked /forgot endpoint], username:{}, newPassword:{}",username,newPassword);
+        logger.info("[Invoked /forgot endpoint]");
         return ResponseEntity.ok(userService.resetPassword(username, newPassword));
     }
 }

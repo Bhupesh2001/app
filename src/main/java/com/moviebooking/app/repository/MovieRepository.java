@@ -11,14 +11,8 @@ import java.util.Optional;
 @Repository
 public interface MovieRepository extends MongoRepository<Movie, String> {
 
-    // Find by exact movie name and theatre name (composite key)
     Optional<Movie> findByMovieNameAndTheatreName(String movieName, String theatreName);
 
-    // Search by partial movie name (case-insensitive)
     List<Movie> findByMovieNameContainingIgnoreCase(String movieName);
 
-    // Find all movies in a specific theatre
-    List<Movie> findByTheatreName(String theatreName);
-
-    Optional<Movie> findByMovieName(String movieName);
 }

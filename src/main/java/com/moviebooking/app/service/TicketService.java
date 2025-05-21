@@ -45,18 +45,15 @@ public class TicketService {
                 .theatreName(dto.getTheatreName())
                 .numberOfTickets(dto.getNumberOfTickets())
                 .seatNumbers(dto.getSeatNumbers())
-                .loginId(dto.getLoginId())  // it's the username/loginId of the user who booked the tickets
+                .loginId(dto.getLoginId())
                 .build();
 
 
-        // Update movie
         movie.setBookedTickets(movie.getBookedTickets() + dto.getNumberOfTickets());
         movieRepo.save(movie);
 
-        // Save ticket
         ticketRepo.save(ticket);
 
-        // Send Kafka message
         ticketProducer.sendTicketUpdate(dto);
 
         return "Ticket booked successfully";

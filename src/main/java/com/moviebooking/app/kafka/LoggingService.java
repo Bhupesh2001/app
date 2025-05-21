@@ -13,7 +13,7 @@ public class LoggingService {
     private static final String TOPIC = "spring-boot-logs";
 
 
-    public void logInfo(String message) {
+    public void info(String message) {
         kafkaTemplate.send(TOPIC,message);
     }
 }

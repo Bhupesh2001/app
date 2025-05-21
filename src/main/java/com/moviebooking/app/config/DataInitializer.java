@@ -24,11 +24,10 @@ public class DataInitializer {
     @Bean
     CommandLineRunner initMovies(MovieRepository movieRepository, TicketRepository ticketRepository) {
         return (args) -> {
-            // Optional: Clear old data
             movieRepository.deleteAll();
 //            ticketRepository.deleteAll();
 
-            // Create sample movies with theatre
+
             Movie m1 = new Movie("Inception", "PVR Cinemas", 5);
             Movie m2 = new Movie("Inception", "INOX", 5);
             Movie m3 = new Movie("Interstellar", "PVR Cinemas", 100);
