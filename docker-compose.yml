@@ -78,6 +78,5 @@ volumes:
 networks:
   elk:
     external: true
-#    name: docker_elk
     name: app_elk
     driver: bridge

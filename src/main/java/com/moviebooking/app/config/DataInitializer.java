@@ -28,17 +28,16 @@ public class DataInitializer {
 //            ticketRepository.deleteAll();
 
 
-            Movie m1 = new Movie("Inception", "PVR Cinemas", 5);
-            Movie m2 = new Movie("Inception", "INOX", 5);
-            Movie m3 = new Movie("Interstellar", "PVR Cinemas", 100);
-            Movie m4 = new Movie("Interstellar", "INOX", 100);
+            Movie m1 = new Movie("Ironman", "PVR Cinemas", 5);
+            Movie m2 = new Movie("Ironman", "INOX", 5);
+            Movie m3 = new Movie("Spiderman", "PVR Cinemas", 100);
+            Movie m4 = new Movie("Spiderman", "INOX", 100);
 
             movieRepository.save(m1);
             movieRepository.save(m2);
             movieRepository.save(m3);
             movieRepository.save(m4);
-            logger.logInfo("Data save ho gya");
-            System.out.println("✅ Sample movies initialized in MongoDB.");
+            logger.info("✅ Sample movies initialized in MongoDB.");
         };
     }
 
@@ -67,7 +66,7 @@ public class DataInitializer {
                     .build());
             userRepository.saveAll(userList);
 
-            logger.logInfo("Saare users baan gye");
+            logger.info("✅ Sample Users initialized in MongoDB.");
         };
     }
 }
