@@ -1,4 +1,5 @@
-FROM ubuntu:latest
-LABEL authors="bpatt"
+FROM amazoncorretto:17.0.14
 
-ENTRYPOINT ["top", "-b"]
+COPY target/app-0.0.2-SNAPSHOT.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
