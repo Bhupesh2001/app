@@ -1,77 +1,76 @@
 services:
   kafka:
-    image: bitnami/kafka:latest
-    environment:
-      - KAFKA_ENABLE_KRAFT=yes
-      - KAFKA_CFG_NODE_ID=1
-      - KAFKA_CFG_PROCESS_ROLES=broker,controller
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      - KAFKA_KRAFT_CLUSTER_ID=kraft-cluster-id
-      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: kafka
     ports:
       - "9092:9092"
-    volumes:
-      - kafka-data:/bitnami/kafka
-
-  logstash:
-    image: docker.elastic.co/logstash/logstash:8.13.4
-    volumes:
-      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./logstash/kafka-to-es.conf:/usr/share/logstash/pipeline/kafka-to-es.conf
-      - ./logstash/pipeline.yml:/usr/share/logstash/config/pipelines.yml
-      - ./app/logs:/usr/share/logstash/logs
-    depends_on:
-      - kafka
-      - elasticsearch
+      - "29092:29092"
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: controller,broker
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      CLUSTER_ID: kMMjC4W0SNykyO4mnboGRQ
+    networks:
+      - kafka-net
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    container_name: elasticsearch
     ports:
       - "9200:9200"
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: -Xmx256m -Xms256m
+      xpack.security.enabled: "false"
     volumes:
       - esdata:/usr/share/elasticsearch/data
+    networks:
+      - kafka-net
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.13.4
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: kibana
     ports:
       - "5601:5601"
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
       - elasticsearch
-
-  springboot-app:
-    build: .
-    volumes:
-      - ./app/logs:/app/logs
-    depends_on:
-      - kafka
-      - mongodb
-    ports:
-      - "8080:8080"
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/moviebooking
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-    restart: unless-stopped
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      xpack.security.enabled: "false"
+      xpack.encryptedSavedObjects.encryptionKey: abc123abc123abc123abc123abc123ab
+      xpack.reporting.encryptionKey: def456def456def456def456def456de
+      xpack.security.encryptionKey: ghi789ghi789ghi789ghi789ghi789gh
+      SERVER_PUBLICBASEURL: http://localhost:5601
+    networks:
+      - kafka-net
 
-
-  mongodb:
-    image: mongo:8.0
-    container_name: mongodb
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.0
+    container_name: logstash
+    restart: always
     ports:
-      - "27017:27017"
+      - "5000:5000"
+    depends_on:
+      - elasticsearch
     volumes:
-      - mongo-data:/data/db
-    restart: unless-stopped
-
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    environment:
+      ELASTIC_USERNAME: elastic
+      ELASTIC_PASSWORD: elastic123
+      LS_JAVA_OPTS: -Xmx256m -Xms256m
+    networks:
+      - kafka-net
 
 volumes:
-  mongo-data:
-  kafka-data:
   esdata:
+
+networks:
+  kafka-net:
+    external: true
+    driver: bridge
