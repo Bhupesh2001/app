@@ -16,8 +16,8 @@ public class LoggingService {
 
 
     public void info(String message) {
-//        log.info(message);
-        kafkaTemplate.send(TOPIC,message);
+        log.info(message);
+//        kafkaTemplate.send(TOPIC,message);
     }
 }
 

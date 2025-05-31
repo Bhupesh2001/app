@@ -60,6 +60,7 @@ services:
       - elasticsearch
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - D:/Coding/FSE1/3/app/logs:/logs
     environment:
       ELASTIC_USERNAME: elastic
       ELASTIC_PASSWORD: elastic123
